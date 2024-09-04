@@ -7,3 +7,11 @@ For test there are 8,000 images without labels.
 
 For this project I will use different CNN and image augmentstions.
 
+============== Baseline model =======================
+Model with 3 Conv2D layers and 2 Dense layers, target_size = 150, 150, no image augmentation
+Clear overfitting during training:
+Train accuracy > 0.99
+Validation accuracy 0.83
+
+============= Image augmentation model =========================
+
