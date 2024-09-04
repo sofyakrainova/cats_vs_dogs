@@ -88,7 +88,7 @@ VALIDATION_DOGS_DIR = os.path.join(VALIDATION_DIR, "dogs/")
 
 # Define proportion of images used for training
 split_size = .9
-print("Split datasets, takes som ")
+print("Split datasets, takes some time ")
 
 split_data(cats_dir, TRAINING_CATS_DIR, VALIDATION_CATS_DIR, split_size)
 split_data(dogs_dir, TRAINING_DOGS_DIR, VALIDATION_DOGS_DIR, split_size)
