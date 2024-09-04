@@ -14,4 +14,10 @@ Train accuracy > 0.99
 Validation accuracy 0.83  
    
 ============= Image augmentation model =========================  
-
+After adding augmentation for baseline model it is clearly underfitted:  
+Train accuracy  0.80  
+Validation accuracy 0.84  
+So we need to complicate model. Add one more Conv2D layer and add more units to the layers. We also increase number of epochs to 20  
+New results:  
+Train accuracy  
+Validation accuracy
