@@ -1,12 +1,8 @@
 from keras.src.utils.module_utils import tensorflow
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import numpy as np
 import pandas as pd
-#keras 2.4.3
-#keras-preprocessing 1.1.0
 
-print(tensorflow.keras.__version__)
 TEST_DIR = "."
 
 savedModel=load_model("gfgModel.h5")
