@@ -5,7 +5,7 @@ import pandas as pd
 
 TEST_DIR = "../Kaggle_data/cats_vs_dogs/"
 TARGET_SIZE = 150
-savedModel=load_model("trained_model.h5")
+savedModel=load_model("trained_model_augmented.h5")
 print(savedModel.summary())
 
 test_datagen = ImageDataGenerator(rescale=1/255.)
@@ -28,6 +28,6 @@ results=pd.DataFrame({"id":filenames,
                       "labels":preds})
 
 results["id"] = results["id"].apply(lambda x: x[5:])
-results.to_csv("submission.csv",index=False)
+results.to_csv("submission3.csv",index=False)
 
 
