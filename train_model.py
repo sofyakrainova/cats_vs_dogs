@@ -2,8 +2,8 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
-TARGET_SIZE = 150
-EPOCHS = 20
+TARGET_SIZE = 200
+EPOCHS = 30
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
 
@@ -44,8 +44,7 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
 train_generator, validation_generator = train_val_generators(TRAINING_DIR, VALIDATION_DIR)
 
 model = tf.keras.models.Sequential([
-    # Note the input shape is the desired size of the image 150x150 with 3 bytes color
-    tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(TARGET_SIZE, TARGET_SIZE, 3)),
+    tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=(TARGET_SIZE, TARGET_SIZE, 3)),
     tf.keras.layers.MaxPooling2D(2,2),
     tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2,2),
@@ -94,4 +93,4 @@ plt.grid()
 plt.show()
 
 # Save the weights
-model.save('trained_model_augmented.h5')
+model.save('trained_model_300_image.h5')
