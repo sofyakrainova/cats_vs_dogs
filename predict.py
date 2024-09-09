@@ -4,8 +4,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import pandas as pd
 
 TEST_DIR = "../Kaggle_data/cats_vs_dogs/"
-TARGET_SIZE = 150
-savedModel=load_model("trained_model_augmented.h5")
+TARGET_SIZE = 200
+savedModel=load_model("trained_model_300_image.h5")
 print(savedModel.summary())
 
 test_datagen = ImageDataGenerator(rescale=1/255.)
