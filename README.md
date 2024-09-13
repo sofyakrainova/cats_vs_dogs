@@ -25,4 +25,6 @@ Validation accuracy 0.89
 Bigger image (250x250) makes final results better and Dropout layer helps to stabilaze the learning curve. Probably it need more epochs to train, I stop on 30 for now.  
   
 ============ Transfer Learning ===================================  
-Here we will retrain existing model for image classification
+Here we will retrain existing model for image classification. Weights for the model can ve downloadedfrom here:  
+https://storage.googleapis.com/mledu-datasets/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
+
