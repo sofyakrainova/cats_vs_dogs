@@ -1,4 +1,7 @@
-import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras.applications.inception_v3 import InceptionV3
+from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras import Model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
@@ -6,6 +9,8 @@ TARGET_SIZE = 250
 EPOCHS = 30
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
+local_weights_file = "inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5"
+
 
 def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
   """
@@ -43,30 +48,42 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
 
 train_generator, validation_generator = train_val_generators(TRAINING_DIR, VALIDATION_DIR)
 
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(TARGET_SIZE, TARGET_SIZE, 3)),
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(1028, activation='relu'),
-    tf.keras.layers.Dropout(0.3),
-    tf.keras.layers.Dense(512, activation='relu'),
-    tf.keras.layers.Dense(1, activation='sigmoid')
-])
 
-model.compile(optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.001),
-                loss='binary_crossentropy',
-                metrics=['accuracy'])
+pre_trained_model = InceptionV3(input_shape = (TARGET_SIZE, TARGET_SIZE, 3),
+                                include_top = False,
+                                weights = None)
 
-history = model.fit(train_generator,
-                    epochs=EPOCHS,
-                    verbose=1,
-                    validation_data=validation_generator)
+pre_trained_model.load_weights(local_weights_file)
+
+for layer in pre_trained_model.layers:
+  layer.trainable = False
+
+last_layer = pre_trained_model.get_layer('mixed7')
+#print('last layer output shape: ', last_layer.output_shape)
+last_output = last_layer.output
+
+# Add new layers to the model
+x = layers.Flatten()(last_output)
+x = layers.Dense(1024, activation='relu')(x)
+x = layers.Dropout(0.2)(x)
+x = layers.Dense  (1, activation='sigmoid')(x)
+
+# Append the dense network to the base model
+model = Model(pre_trained_model.input, x)
+
+model.summary()
+
+model.compile(optimizer=RMSprop(learning_rate=0.0001),
+                loss="binary_crossentropy",
+                metrics=["accuracy"])
+
+history = model.fit(
+            train_generator,
+            validation_data = validation_generator,
+            steps_per_epoch = 100,
+            epochs = EPOCHS,
+            validation_steps = 50,
+            verbose = 2)
 
 acc=history.history['accuracy']
 val_acc=history.history['val_accuracy']

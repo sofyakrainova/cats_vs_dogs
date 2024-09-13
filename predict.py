@@ -1,4 +1,3 @@
-from keras.src.utils.module_utils import tensorflow
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import pandas as pd
