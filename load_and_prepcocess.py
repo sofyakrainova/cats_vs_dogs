@@ -16,12 +16,6 @@ plt.show()
 plt.imshow(load_img(f"{os.path.join(cats_dir, os.listdir(cats_dir)[0])}"))
 plt.show()
 
-# check images shape and maximum value for pixels
-sample_image  = load_img(f"{os.path.join(dogs_dir, os.listdir(dogs_dir)[0])}")
-# Convert the image into its numpy array representation
-sample_array = img_to_array(sample_image)
-print(f"Each image has shape: {sample_array.shape}")
-print(f"The maximum pixel value used is: {np.max(sample_array)}")
 
 def create_train_val_dirs(root_path):
 

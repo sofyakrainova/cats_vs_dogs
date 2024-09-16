@@ -5,8 +5,8 @@ from tensorflow.keras import Model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
-TARGET_SIZE = 250
-EPOCHS = 30
+TARGET_SIZE = 300
+EPOCHS = 40
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
 local_weights_file = "inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5"
@@ -48,24 +48,25 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
 
 train_generator, validation_generator = train_val_generators(TRAINING_DIR, VALIDATION_DIR)
 
-
+# Loading pretrained model
 pre_trained_model = InceptionV3(input_shape = (TARGET_SIZE, TARGET_SIZE, 3),
                                 include_top = False,
                                 weights = None)
 
 pre_trained_model.load_weights(local_weights_file)
-
+# Making sure trained layers will stay intact
 for layer in pre_trained_model.layers:
   layer.trainable = False
 
+# Last trained layer we will use
 last_layer = pre_trained_model.get_layer('mixed7')
-#print('last layer output shape: ', last_layer.output_shape)
 last_output = last_layer.output
 
 # Add new layers to the model
 x = layers.Flatten()(last_output)
 x = layers.Dense(1024, activation='relu')(x)
 x = layers.Dropout(0.2)(x)
+x = layers.Dense(512, activation='relu')(x)
 x = layers.Dense  (1, activation='sigmoid')(x)
 
 # Append the dense network to the base model
