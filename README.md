@@ -8,10 +8,13 @@ For test there are 8,000 images without labels.
 For this project I will use different CNN and image augmentstions.
 
 ============== Baseline model ================================  
-Model with 3 Conv2D layers and 2 Dense layers, target_size = 150, 150, no image augmentation  
-Clear overfitting during training:  
-Train accuracy > 0.99  
-Validation accuracy 0.83  
+Model with 3 Conv2D layers and 2 Dense layers, target_size = 150, 150, no image augmentation.  
+After parameters selection we have:  
+First layer 8 (3,3), second layer 16 (3,3), third layer 28 (3,3), dense layer 320  
+After 20 epochs we have clear overfitting during training:  
+Train accuracy 0.998  
+Validation accuracy 0.837  
+Test accuracy 0.813
    
 ============= Image augmentation model =========================  
 After adding augmentation for baseline model it is clearly underfitted:  
