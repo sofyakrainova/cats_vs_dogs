@@ -14,4 +14,20 @@ Train accuracy > 0.99
 Validation accuracy 0.83  
    
 ============= Image augmentation model =========================  
+After adding augmentation for baseline model it is clearly underfitted:  
+Train accuracy  0.80  
+Validation accuracy 0.84  
+So we need to complicate model. Add one more Conv2D layer and add more units to the layers. We also increase number of epochs to 20  
+New results:  
+Train accuracy  0.86  
+Validation accuracy 0.89  
+
+Bigger image (250x250) makes final results better and Dropout layer helps to stabilaze the learning curve. Probably it need more epochs to train, I stop on 30 for now.  
+  
+============ Transfer Learning ===================================  
+Here we will retrain existing model for image classification. Weights for the model can be downloaded from here:  
+https://storage.googleapis.com/mledu-datasets/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5  
+with image size 300x300 and epochs 40 we have next results:  
+Train accuracy 0.98  
+Validation accuracy 0.99  
 
