@@ -28,6 +28,6 @@ results=pd.DataFrame({"id":filenames,
                       "labels":preds})
 
 results["id"] = results["id"].apply(lambda x: x[5:])
-results.to_csv("submission2.csv",index=False)
+results.to_csv("submission.csv",index=False)
 
 
