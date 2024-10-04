@@ -17,15 +17,12 @@ Validation accuracy 0.837
 Test accuracy 0.813
    
 ============= Image augmentation model =========================  
-After adding augmentation for baseline model it is clearly underfitted:  
-Train accuracy  0.80  
-Validation accuracy 0.84  
-So we need to complicate model. Add one more Conv2D layer and add more units to the layers. We also increase number of epochs to 20  
-New results:  
-Train accuracy  0.86  
-Validation accuracy 0.89  
-
-Bigger image (250x250) makes final results better and Dropout layer helps to stabilaze the learning curve. Probably it need more epochs to train, I stop on 30 for now.  
+After adding augmentation for baseline model it is clearly underfitted, it needs more epochs to train and more complicated model.  
+After parameter selection we have:  
+First layer 26 (3,3), second layer 20 (4,4), third layer 60 (3,3), dense layer 32  
+Train accuracy  0.852   
+Validation accuracy 0.844  
+Test accuracy 0.501  .  
   
 ============ Transfer Learning ===================================  
 Here we will retrain existing model for image classification. Weights for the model can be downloaded from here:  
