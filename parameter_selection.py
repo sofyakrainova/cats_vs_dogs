@@ -6,7 +6,7 @@ BATCH_SIZE = 32
 TARGET_SIZE = 150
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
-EPOCHS = 12
+EPOCHS = 20
 
 def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
   """
@@ -19,7 +19,15 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
   Returns:
     train_generator, validation_generator - tuple containing the generators
   """
-  train_datagen = ImageDataGenerator( rescale = 1.0/255. )
+  train_datagen = ImageDataGenerator( rescale = 1.0/255.,
+                                      rotation_range=40,
+                                      width_shift_range=0.2,
+                                      height_shift_range=0.2,
+                                      shear_range=0.2,
+                                      zoom_range=0.2,
+                                      horizontal_flip=True,
+                                      fill_mode=('nearest')
+                                      )
   train_generator = train_datagen.flow_from_directory(directory=TRAINING_DIR,
                                                       batch_size=20,
                                                       class_mode="binary",
@@ -68,14 +76,14 @@ def model_builder(hp):
   return model
 
 tuner = kt.Hyperband(model_builder,
-                     max_epochs=12,
+                     max_epochs=10,
                      objective="val_accuracy",
                      overwrite=True,
                      directory="tuner_dir",
                      project_name="cats_vs_dogs"
                      )
 tuner.search(train_generator,
-             epochs=12,
+             epochs=EPOCHS,
              validation_data = validation_generator
              )
 

@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
-TARGET_SIZE = 250
+TARGET_SIZE = 150
 EPOCHS = 30
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
@@ -44,18 +44,15 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
 train_generator, validation_generator = train_val_generators(TRAINING_DIR, VALIDATION_DIR)
 
 model = tf.keras.models.Sequential([
-    tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(TARGET_SIZE, TARGET_SIZE, 3)),
+    tf.keras.layers.Conv2D(26, (3,3), activation='relu', input_shape=(TARGET_SIZE, TARGET_SIZE, 3)),
     tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+    tf.keras.layers.Conv2D(20, (4,4), activation='relu'),
     tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2,2),
-    tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
+    tf.keras.layers.Conv2D(60, (3,3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2,2),
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(1028, activation='relu'),
     tf.keras.layers.Dropout(0.3),
-    tf.keras.layers.Dense(512, activation='relu'),
+    tf.keras.layers.Dense(32, activation='relu'),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
@@ -68,31 +65,19 @@ history = model.fit(train_generator,
                     verbose=1,
                     validation_data=validation_generator)
 
-acc=history.history['accuracy']
-val_acc=history.history['val_accuracy']
-loss=history.history['loss']
-val_loss=history.history['val_loss']
+def plot_graphs(history, string):
+  plt.plot(history.history[string])
+  plt.plot(history.history['val_'+string])
+  plt.grid()
+  plt.xlabel("Epochs")
+  plt.ylabel(string)
+  plt.legend([string, 'val_'+string])
+  plt.show()
 
-epochs=range(len(acc))
+# Plot the accuracy and loss
+plot_graphs(history, "accuracy")
+plot_graphs(history, "loss")
 
-#------------------------------------------------
-# Plot training and validation accuracy per epoch
-#------------------------------------------------
-plt.plot(epochs, acc, 'r', label = "Training Accuracy")
-plt.plot(epochs, val_acc, 'b', label = "Validation Accuracy")
-plt.grid()
-plt.legend()
-plt.title('Training and validation accuracy')
-plt.show()
-
-#------------------------------------------------
-# Plot training and validation loss per epoch
-#------------------------------------------------
-plt.plot(epochs, loss, 'r', label = "Training Loss")
-plt.plot(epochs, val_loss, 'b', label = "Validation Loss")
-plt.legend()
-plt.grid()
-plt.show()
 
 # Save the weights
 model.save('trained_model_dropout.h5')
