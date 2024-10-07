@@ -27,7 +27,9 @@ Test accuracy 0.501  .
 ============ Transfer Learning ===================================  
 Here we will retrain existing model for image classification. Weights for the model can be downloaded from here:  
 https://storage.googleapis.com/mledu-datasets/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5  
-with image size 300x300 and epochs 40 we have next results:  
+After parameters tuning we have dense layer 256 and dense layer 576.  With image size 300x300 and epochs 30 we have next results:  
 Train accuracy 0.98  
 Validation accuracy 0.99  
+Test accuracy: 0.524  
+Augmentation works badly on this dataset, best results on test we have for the baseline model.
 
