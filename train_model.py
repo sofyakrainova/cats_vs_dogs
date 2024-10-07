@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 TARGET_SIZE = 300
-EPOCHS = 30
+EPOCHS = 7
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
 local_weights_file = "inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5"
@@ -24,13 +24,7 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
     train_generator, validation_generator - tuple containing the generators
   """
   train_datagen = ImageDataGenerator( rescale = 1.0/255,
-                                      rotation_range=40,
-                                      width_shift_range=0.2,
-                                      height_shift_range=0.2,
-                                      shear_range=0.2,
-                                      zoom_range=0.2,
-                                      horizontal_flip=True,
-                                      fill_mode=('nearest'),
+
                                       )
   train_generator = train_datagen.flow_from_directory(
                                                       directory=TRAINING_DIR,
@@ -81,9 +75,7 @@ model.compile(optimizer=RMSprop(learning_rate=1e-05),
 history = model.fit(
             train_generator,
             validation_data = validation_generator,
-            steps_per_epoch = 100,
             epochs = EPOCHS,
-            validation_steps = 50,
             verbose = 2)
 
 acc=history.history['accuracy']
