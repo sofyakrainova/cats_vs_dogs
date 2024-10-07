@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 TARGET_SIZE = 300
-EPOCHS = 40
+EPOCHS = 30
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
 local_weights_file = "inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5"
@@ -64,9 +64,9 @@ last_output = last_layer.output
 
 # Add new layers to the model
 x = layers.Flatten()(last_output)
-x = layers.Dense(1024, activation='relu')(x)
+x = layers.Dense(256, activation='relu')(x)
 x = layers.Dropout(0.2)(x)
-x = layers.Dense(512, activation='relu')(x)
+x = layers.Dense(576, activation='relu')(x)
 x = layers.Dense  (1, activation='sigmoid')(x)
 
 # Append the dense network to the base model
@@ -74,7 +74,7 @@ model = Model(pre_trained_model.input, x)
 
 model.summary()
 
-model.compile(optimizer=RMSprop(learning_rate=0.0001),
+model.compile(optimizer=RMSprop(learning_rate=1e-05),
                 loss="binary_crossentropy",
                 metrics=["accuracy"])
 
