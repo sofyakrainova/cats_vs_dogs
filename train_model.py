@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 TARGET_SIZE = 150
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
-EPOCHS = 20
+EPOCHS = 25
 
 def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
   """
@@ -73,4 +73,4 @@ plot_graphs(history, "loss")
 
 
 # Save the weights
-model.save('trained_model.h5')
+model.save('trained_model.keras')
