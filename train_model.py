@@ -3,7 +3,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 TARGET_SIZE = 150
-EPOCHS = 30
+EPOCHS = 100
 TRAINING_DIR = "../Kaggle_data/cats_vs_dogs/train/training"
 VALIDATION_DIR = "../Kaggle_data/cats_vs_dogs/train/validation"
 
@@ -43,6 +43,12 @@ def train_val_generators(TRAINING_DIR, VALIDATION_DIR):
 
 train_generator, validation_generator = train_val_generators(TRAINING_DIR, VALIDATION_DIR)
 
+class myCallback(tf.keras.callbacks.Callback):
+  def on_epoch_end(self, epoch, logs={}):
+    if(logs.get('accuracy')>0.999):
+      print("\nReached 99.9% accuracy so cancelling training!")
+      self.model.stop_training = True
+
 model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(26, (3,3), activation='relu', input_shape=(TARGET_SIZE, TARGET_SIZE, 3)),
     tf.keras.layers.MaxPooling2D(2,2),
@@ -60,10 +66,13 @@ model.compile(optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.001),
                 loss='binary_crossentropy',
                 metrics=['accuracy'])
 
+callbacks = myCallback()
 history = model.fit(train_generator,
                     epochs=EPOCHS,
                     verbose=1,
-                    validation_data=validation_generator)
+                    validation_data=validation_generator,
+                    callbacks=callbacks
+                    )
 
 def plot_graphs(history, string):
   plt.plot(history.history[string])
@@ -80,4 +89,4 @@ plot_graphs(history, "loss")
 
 
 # Save the weights
-model.save('trained_model_dropout.h5')
+model.save('trained_model.keras')
