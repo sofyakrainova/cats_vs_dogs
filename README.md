@@ -19,10 +19,11 @@ Test accuracy 0.984
 ============= Image augmentation model =========================  
 After adding augmentation for baseline model it is clearly underfitted, it needs more epochs to train and more complicated model.  
 After parameter selection we have:  
-First layer 26 (3,3), second layer 20 (4,4), third layer 60 (3,3), dense layer 32. After 30 epochs we have, we need 50 at least.  
+First layer 26 (3,3), second layer 20 (4,4), third layer 60 (3,3), dense layer 32. After 30 epochs we have:    
 Train accuracy  0.852   
 Validation accuracy 0.844  
 Test accuracy 0.859  
+Bigger number of epoch didn't help, we need to change model for it.
   
 ============ Transfer Learning ===================================  
 Here we will retrain existing model for image classification. Weights for the model can be downloaded from here:  
